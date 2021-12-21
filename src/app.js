@@ -54,15 +54,31 @@ function getAccessToken(oAuth2Client, callback) {
 }
 /**
 * Describe with given media and metaData and upload it using google.drive.create method()
-*/ 
+*/
 function uploadFile(auth) {
   const drive = google.drive({version: 'v3', auth});
+
+  // Generate File Name that will be used for saving the file in google drive.
+  const date_ob = new Date();
+  const day = ("0" + date_ob.getDate()).slice(-2);
+  const month = ("0" + (date_ob.getMonth() + 1)).slice(-2);
+  const year = date_ob.getFullYear();
+  const hours = date_ob.getHours();
+  const minutes = date_ob.getMinutes();
+  const seconds = date_ob.getSeconds();
+
+  let dbName = 'database_';
+  if (process.argv[2]) {
+	dbName = process.argv[2] + '_';
+  }
+  const driveFileName = dbName + year + "-" + month + '-' + day + "-" + hours + minutes + seconds;
+
   const fileMetadata = {
-    'name': 'parrot.jpg'
+    'name': driveFileName
   };
   const media = {
-    mimeType: 'image/jpeg',
-    body: fs.createReadStream('files/parrot.jpg')
+    mimeType: 'application/zip',
+    body: fs.createReadStream('database.zip')
   };
   drive.files.create({
     resource: fileMetadata,
