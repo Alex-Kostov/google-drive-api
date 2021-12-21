@@ -4,7 +4,7 @@ const { google } = require('googleapis');
 
 // If modifying these scopes, delete token.json.
 const SCOPES = ['https://www.googleapis.com/auth/drive.file'];
-const TOKEN_PATH = 'token.json';
+const TOKEN_PATH = __dirname + '/token.json';
 
 /**
  * Create an OAuth2 client with the given credentials, and then execute the given callback function.
@@ -71,14 +71,14 @@ function uploadFile(auth) {
   if (process.argv[2]) {
 	dbName = process.argv[2] + '_';
   }
-  const driveFileName = dbName + year + "-" + month + '-' + day + "-" + hours + minutes + seconds;
+  const driveFileName = dbName + year + "-" + month + '-' + day + "-" + hours + minutes + seconds + '.zip';
 
   const fileMetadata = {
     'name': driveFileName
   };
   const media = {
     mimeType: 'application/zip',
-    body: fs.createReadStream('database.zip')
+    body: fs.createReadStream( __dirname + '/database.zip')
   };
   drive.files.create({
     resource: fileMetadata,
@@ -94,7 +94,7 @@ function uploadFile(auth) {
   });
 }
 
-fs.readFile('credentials.json', (err, content) => {
+fs.readFile( __dirname + '/credentials.json', (err, content) => {
   if (err) return console.log('Error loading client secret file:', err);
   // Authorize a client with credentials, then call the Google Drive API.
   authorize(JSON.parse(content), uploadFile);
