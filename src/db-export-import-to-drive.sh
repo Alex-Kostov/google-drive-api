@@ -14,7 +14,8 @@ db_backup="db.sql"
 mysqldump -u ${USER} -p${PASSWORD} --no-tablespaces ${DATABASE_NAME}  >${SRC_PATH}/${db_backup}
 
 # Zip the db in order to reduce size
-zip ${SRC_PATH}/database.zip ${SRC_PATH}/db.sql
+cd ${SRC_PATH}
+zip database.zip db.sql
 
 #  Remove the sql file
 rm ${SRC_PATH}/${db_backup}

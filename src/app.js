@@ -74,7 +74,8 @@ function uploadFile(auth) {
   const driveFileName = dbName + year + "-" + month + '-' + day + "-" + hours + minutes + seconds + '.zip';
 
   const fileMetadata = {
-    'name': driveFileName
+    'name': driveFileName,
+	parents: ['gdrive folder ID goes here']
   };
   const media = {
     mimeType: 'application/zip',
